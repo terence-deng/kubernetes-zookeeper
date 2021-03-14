@@ -1,13 +1,13 @@
 VERSION=1.0-3.6.2
-PROJECT_ID=google_containers
-PROJECT=gcr.io/${PROJECT_ID}
+PROJECT_ID=kubernetes-zookeeper
+PROJECT=terencedeng
 
 all: build
 
 build:
-	docker build --pull -t ${PROJECT}/kubernetes-zookeeper:${VERSION} .
+	docker build --pull -t ${PROJECT}/${PROJECT_ID}:${VERSION} .
 
 push: build
-	gcloud docker -- push ${PROJECT}/kubernetes-zookeeper:${VERSION}
+	gcloud docker -- push ${PROJECT}/${PROJECT_ID}:${VERSION}
 
 .PHONY: all build push

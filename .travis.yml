@@ -5,3 +5,5 @@ services:
 
 script:
   - make -C docker build
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - make -C docker push
