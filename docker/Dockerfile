@@ -39,5 +39,4 @@ RUN set -x \
 	&& chown -R "$ZK_USER:$ZK_USER" /opt/apache-$ZK_DIST-bin $ZK_DATA_DIR $ZK_LOG_DIR $ZK_DATA_LOG_DIR /tmp/zookeeper \
 	&& ln -s /opt/zookeeper/conf/ /usr/etc/zookeeper \
 	&& ln -s /opt/zookeeper/bin/* /usr/bin \
-	&& ln -s /opt/zookeeper/lib/* /usr/share/zookeeper \
-	&& cp -f /opt/zookeeper/conf/zoo_sample.cfg /opt/zookeeper/conf/zoo.cfg
+	&& ln -s /opt/zookeeper/lib/* /usr/share/zookeeper
