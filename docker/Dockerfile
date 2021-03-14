@@ -18,7 +18,7 @@ RUN set -x \
     && gpg --batch --verify "apache-$ZK_DIST.tar.gz.asc" "apache-$ZK_DIST.tar.gz" \
     && tar -xzf "apache-$ZK_DIST.tar.gz" -C /opt \
     && rm -r "$GNUPGHOME" "apache-$ZK_DIST.tar.gz" "apache-$ZK_DIST.tar.gz.asc" \
-    && ln -s /opt/$ZK_DIST /opt/zookeeper \
+    && ln -s /opt/apache-$ZK_DIST /opt/zookeeper \
     && rm -rf /opt/zookeeper/CHANGES.txt \
     /opt/zookeeper/README.txt \
     /opt/zookeeper/NOTICE.txt \
