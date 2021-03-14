@@ -8,6 +8,6 @@ build:
 	docker build --pull -t ${PROJECT}/${PROJECT_ID}:${VERSION} .
 
 push: build
-	gcloud docker -- push ${PROJECT}/${PROJECT_ID}:${VERSION}
+	docker push ${PROJECT}/${PROJECT_ID}:${VERSION}
 
 .PHONY: all build push
