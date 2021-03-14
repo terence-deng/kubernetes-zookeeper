@@ -12,8 +12,9 @@ RUN set -x \
     && apt-get install -y openjdk-8-jre-headless wget netcat-openbsd gnupg2 \
 	&& wget -q "https://downloads.apache.org/zookeeper/$ZK_DIST/apache-$ZK_DIST.tar.gz" \
     && wget -q "https://downloads.apache.org/zookeeper/$ZK_DIST/apache-$ZK_DIST.tar.gz.asc" \
+    && wget -q "https://downloads.apache.org/zookeeper/KEYS" \
     && export GNUPGHOME="$(mktemp -d)" \
-    && gpg --keyserver pgpkeys.mit.edu --recv-key "$GPG_KEY" \
+    && gpg --import KEYS \
     && gpg --batch --verify "apache-$ZK_DIST.tar.gz.asc" "apache-$ZK_DIST.tar.gz" \
     && tar -xzf "apache-$ZK_DIST.tar.gz" -C /opt \
     && rm -r "$GNUPGHOME" "apache-$ZK_DIST.tar.gz" "apache-$ZK_DIST.tar.gz.asc" \
