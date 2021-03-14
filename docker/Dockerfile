@@ -53,4 +53,5 @@ RUN set -x \
 	&& ln -s /opt/zookeeper/conf/ /usr/etc/zookeeper \
 	&& ln -s /opt/zookeeper/bin/* /usr/bin \
 	&& ln -s /opt/zookeeper/$ZK_DIST.jar /usr/share/zookeeper/ \
-	&& ln -s /opt/zookeeper/lib/* /usr/share/zookeeper 
+	&& ln -s /opt/zookeeper/lib/* /usr/share/zookeeper \
+	&& cp -f /opt/zookeeper/conf/zoo_sample.cfg /opt/zookeeper/conf/zoo.cfg
