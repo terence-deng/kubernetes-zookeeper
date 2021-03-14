@@ -5,37 +5,24 @@ ZK_DATA_LOG_DIR=/var/lib/zookeeper/log \
 ZK_LOG_DIR=/var/log/zookeeper \
 JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
-ARG GPG_KEY=C823E3E5B12AF29C67F81976F5CECB3CB5E9BD2D
 ARG ZK_DIST=zookeeper-3.6.2
 RUN set -x \
     && apt-get update \
     && apt-get install -y openjdk-8-jre-headless wget netcat-openbsd gnupg2 \
-	&& wget -q "https://downloads.apache.org/zookeeper/$ZK_DIST/apache-$ZK_DIST.tar.gz" \
-    && wget -q "https://downloads.apache.org/zookeeper/$ZK_DIST/apache-$ZK_DIST.tar.gz.asc" \
+	&& wget -q "https://downloads.apache.org/zookeeper/$ZK_DIST/apache-$ZK_DIST-bin.tar.gz" \
+    && wget -q "https://downloads.apache.org/zookeeper/$ZK_DIST/apache-$ZK_DIST-bin.tar.gz.asc" \
     && wget -q "https://downloads.apache.org/zookeeper/KEYS" \
     && export GNUPGHOME="$(mktemp -d)" \
     && gpg --import KEYS \
-    && gpg --batch --verify "apache-$ZK_DIST.tar.gz.asc" "apache-$ZK_DIST.tar.gz" \
-    && tar -xzf "apache-$ZK_DIST.tar.gz" -C /opt \
-    && rm -r "$GNUPGHOME" "apache-$ZK_DIST.tar.gz" "apache-$ZK_DIST.tar.gz.asc" \
-    && ln -s /opt/apache-$ZK_DIST /opt/zookeeper \
-    && rm -rf /opt/zookeeper/CHANGES.txt \
-    /opt/zookeeper/README.txt \
+    && gpg --batch --verify "apache-$ZK_DIST-bin.tar.gz.asc" "apache-$ZK_DIST-bin.tar.gz" \
+    && tar -xzf "apache-$ZK_DIST-bin.tar.gz" -C /opt \
+    && rm -r "$GNUPGHOME" "apache-$ZK_DIST-bin.tar.gz" "apache-$ZK_DIST-bin.tar.gz.asc" \
+    && ln -s /opt/apache-$ZK_DIST-bin /opt/zookeeper \
+    && rm -rf /opt/zookeeper/README.md \
     /opt/zookeeper/NOTICE.txt \
-    /opt/zookeeper/CHANGES.txt \
-    /opt/zookeeper/README_packaging.txt \
-    /opt/zookeeper/build.xml \
-    /opt/zookeeper/config \
-    /opt/zookeeper/contrib \
-    /opt/zookeeper/dist-maven \
+    /opt/zookeeper/README_packaging.md \
     /opt/zookeeper/docs \
-    /opt/zookeeper/ivy.xml \
-    /opt/zookeeper/ivysettings.xml \
-    /opt/zookeeper/recipes \
-    /opt/zookeeper/src \
-    /opt/zookeeper/$ZK_DIST.jar.asc \
-    /opt/zookeeper/$ZK_DIST.jar.md5 \
-    /opt/zookeeper/$ZK_DIST.jar.sha1 \
+    /opt/zookeeper/bin/*.cmd \
 	&& apt-get autoremove -y wget gnupg2 \
 	&& rm -rf /var/lib/apt/lists/*
 
@@ -49,9 +36,8 @@ RUN set -x \
     && [ `id -u $ZK_USER` -eq 1000 ] \
     && [ `id -g $ZK_USER` -eq 1000 ] \
     && mkdir -p $ZK_DATA_DIR $ZK_DATA_LOG_DIR $ZK_LOG_DIR /usr/share/zookeeper /tmp/zookeeper /usr/etc/ \
-	&& chown -R "$ZK_USER:$ZK_USER" /opt/apache-$ZK_DIST $ZK_DATA_DIR $ZK_LOG_DIR $ZK_DATA_LOG_DIR /tmp/zookeeper \
+	&& chown -R "$ZK_USER:$ZK_USER" /opt/apache-$ZK_DIST-bin $ZK_DATA_DIR $ZK_LOG_DIR $ZK_DATA_LOG_DIR /tmp/zookeeper \
 	&& ln -s /opt/zookeeper/conf/ /usr/etc/zookeeper \
 	&& ln -s /opt/zookeeper/bin/* /usr/bin \
-	&& ln -s /opt/zookeeper/$ZK_DIST.jar /usr/share/zookeeper/ \
 	&& ln -s /opt/zookeeper/lib/* /usr/share/zookeeper \
 	&& cp -f /opt/zookeeper/conf/zoo_sample.cfg /opt/zookeeper/conf/zoo.cfg
